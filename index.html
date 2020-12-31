@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <title>🎰 Sorteador 🎰</title>
+
+  <style>
+    body {
+      background-color: #9466FF;
+    }
+
+    .container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .container h2 {
+      color: #FFF;
+      padding: 1rem 0;
+    }
+
+    .container-form {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-general {
+      width: 60%;
+      background-color: #FFF;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .container-general label {
+      padding: 0 0 1rem 0;
+    }
+
+    .container-general button {
+      width: 40%;
+      margin: 2rem 0 0 0;
+      font-weight: 600;
+    }
+
+    .container-list-people {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .container-person {
+      min-width: 20%;
+      height: 2rem;
+      background-color: #9466FF;
+      color: #FFF;
+      font-weight: 'bold';
+      font-size: 1.25rem;
+      text-align: center;
+      border-radius: 7%;
+      margin: 1rem 1rem 0 1rem;
+      cursor: pointer;
+      transition: background-color 0.6s;
+    }
+
+    .container-person:hover {
+      background-color: #4A3380;
+    }
+
+    #start-button {
+      width: 60%;
+      height: 5rem;
+      font-weight: 600;
+      font-size: 1.75rem;
+      background-color: #04D361;
+      color: #FFF;
+    }
+
+    #draw-button {
+      width: 70%;
+      height: 5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>🍫 Sorteador de Amigo Doce 🍫</h2>
+
+    <div id="screen-draw" class="container-general" style="display: none;">
+      <h4>🎮 Boa noite Participante! 🎮</h4>
+
+      <button id="draw-button" class="btn btn-warning btn-lg btn-block mt-3" role="button" aria-pressed="true"
+        onclick="drawPeople()" data-toggle="modal" data-target="#exampleModalCenter">🎉
+        Sortear 🎉</button>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">E o seu amigo doce fooi...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <h3 id="person-chosen"></h3>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Sair</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form id="form" class="container-form">
+
+      <div class="container-general">
+        <label for="exampleInputEmail1">
+          <h4>🎮 Nome do Participante 🎮</h4>
+        </label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          onkeypress="return runScript(event)">
+
+        <button id="add-button" type="button" class="btn btn-warning" onclick="addPeople()">Incluir</button>
+      </div>
+    </form>
+
+
+    <div class="container-general mt-4">
+      <h4>👧 Lista de Participantes 👦</h4>
+      <div id="list-people" class="container-list-people">
+      </div>
+    </div>
+
+    <button id="start-button" class="btn btn-lg btn-block mt-5" role="button" aria-pressed="true"
+      onclick="start()">Começar!</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+    integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+    integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+    crossorigin="anonymous"></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>
